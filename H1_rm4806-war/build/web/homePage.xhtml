@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Home - Image Uploader</title>
+    </h:head>
+    <h:body style="background-color: blue; color: white">
+        <h1>Upload images</h1>
+        <p:button value="Sign out" outcome="index" style="top: 1; right: 0; position: absolute" />
+        <h:form enctype="multipart/form-data" id="form1">
+            <p:growl id="mess" showDetail="true"/>
+            
+            <p:fileUpload fileUploadListener="#{imageUploadController.upload}" auto="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced" update="mess">
+                <p:outputLabel for="caption" value="Caption: "/>
+                <p:inputTextarea id="caption" value="#{imageUploadController.caption}" style="vertical-align: middle"/> <br/> <br/>
+            </p:fileUpload>
+        </h:form>
+        
+        <h:form>
+            <p:commandButton value="View Images" action="#{imageUploadController.goToViewImg()}"/>
+        </h:form>
+    </h:body>
+</html>
+

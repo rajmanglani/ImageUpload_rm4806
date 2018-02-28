@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create Account</title>
+    </h:head>
+    <h:body style="background: linear-gradient(to bottom right, lightsalmon, pink); background-attachment: fixed;">
+        <p:messages id="createAccMessage" showDetail="true" autoUpdate="true"/>
+            <h:form>
+                <h:panelGrid id="sgrid" columns="2" style="border: black double 10px; margin: auto; vertical-align: central">
+                    <f:facet name="header">
+                        <h1 style="">CREATE A NEW ACCOUNT</h1>
+                    </f:facet>
+                    <p:outputLabel for="email" value="Email: "/>
+                    <p:inputText id="email" required="true" style="border-radius: 20px;" value="#{createAccountController.email}" />
+                    <p:outputLabel for="fname" value="First Name: "/>
+                    <p:inputText id="fname" style="border-radius: 20px;" value="#{createAccountController.fname}" />
+                    <p:outputLabel for="lname" value="Last Name: "/>
+                    <p:inputText id="lname" style="border-radius: 20px;" value="#{createAccountController.lname}" />
+                    <p:outputLabel for="password" value="Password: "/>
+                    <p:password id="password" required="true" style="border-radius: 20px;" feedback="true" match="confirm_password" value="#{createAccountController.password}"/>
+                    <p:outputLabel for="confirm_password" value="Confirm Password: "/>
+                    <p:password id="confirm_password" required="true" style="border-radius: 20px;"/>
+                    <br/>
+                    <p:commandButton update="sgrid" value="Signup" action="#{createAccountController.signupUser()}" style="border-radius: 30px; background-color: black; color: white;"/>
+                </h:panelGrid> <br/>
+                
+            </h:form>
+    </h:body>
+</html>
+
