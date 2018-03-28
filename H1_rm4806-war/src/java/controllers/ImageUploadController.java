@@ -5,6 +5,7 @@
  */
 package controllers;
 
+
 import entity.Accounts;
 import entity.Images;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
@@ -38,8 +40,10 @@ public class ImageUploadController {
     @EJB
     private AccountsFacade accFacade;
     
-    private String caption;
-    private String email;
+    @Inject
+    private LoginController loginController;
+    
+    private String caption, email;
     
     /**
      * Creates a new instance of ImageUploadController
@@ -51,8 +55,7 @@ public class ImageUploadController {
     
     @PostConstruct
     public void init(){
-        //Bring email from the session map which was put after the user was authenticated. 
-        email = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("email");
+        email = loginController.getTemp().getEmail();
     }
     
     public void upload(FileUploadEvent event) throws IOException{
@@ -61,7 +64,7 @@ public class ImageUploadController {
         Images image = new Images();
         image.setImgId(new Date());             // Timestamp which is also the PK in the images table
         image.setImg(img);
-        Accounts a = accFacade.find(email);    // Set the user as the foreign key 
+        Accounts a = accFacade.find(email);
         image.setEmail(a);
         //Bring the caption from the form since uploading is an ajax event.
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -80,6 +83,10 @@ public class ImageUploadController {
 
     public void setCaption(String caption) {
         this.caption = caption;
+    }
+
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
     }
 
     

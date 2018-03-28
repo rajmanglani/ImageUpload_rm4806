@@ -22,6 +22,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -43,6 +44,9 @@ public class ImageServiceController {
     @EJB
     private AccountsFacade accFacade;
     
+    @Inject 
+    private LoginController loginController;
+    
     private List<Images> allImgs;
     private String email;
     
@@ -60,7 +64,7 @@ public class ImageServiceController {
      */
     @PostConstruct
     public void init(){
-        email = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("email"); // Get email of user who is logged in
+        email = loginController.getTemp().getEmail(); // Get email of user who is logged in
         List<Images> images = imgFacade.findAll();    // get all images from the db
         for(Images i : images){
             if(i.getEmail().getEmail().equals(email)){  // email of the images matches with the user logged in, add to the list to display

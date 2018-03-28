@@ -7,9 +7,11 @@ package controllers;
 
 import entity.Accounts;
 import java.io.IOException;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -22,13 +24,14 @@ import session.AccountsFacade;
  * @author rm4806
  */
 @Named(value = "loginController")
-@RequestScoped
-public class LoginController {
+@SessionScoped
+public class LoginController implements Serializable{
 
     @EJB
     private AccountsFacade accFacade;
     
     private String email, password;
+    private Accounts temp;
     /**
      * Creates a new instance of LoginController
      */
@@ -51,6 +54,15 @@ public class LoginController {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Accounts getTemp() {
+        return temp;
+    }
+
+    public void setTemp(Accounts temp) {
+        this.temp = temp;
+    }
+    
     
     /**
      * This method gets the values from the UI. It first tries to find the account object with the email specified by the user.
@@ -59,12 +71,13 @@ public class LoginController {
      * @throws IOException 
      */
     public void login() throws IOException{
-        Accounts temp = accFacade.find(this.getEmail().toLowerCase());
+         temp = accFacade.find(this.getEmail().toLowerCase());
             if(temp == null){
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Email error","Cannot find email account.." ));
             }else{
                 if(temp.getPassword().equals(this.getPassword())){
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("email", this.getEmail());  // This makes sure that the email of the user is passed on to the next page so that we know who the user is
+                    //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("email", this.getEmail());  // This makes sure that the email of the user is passed on to the next page so that we know who the user is
+                    
                     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                     ec.redirect("faces/homePage.xhtml");
                 }else{
@@ -73,5 +86,11 @@ public class LoginController {
                 }
             }
  
+    }
+    
+    public void logout() throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect("index.xhtml");
     }
 }
