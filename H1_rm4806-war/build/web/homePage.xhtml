@@ -8,7 +8,9 @@
     </h:head>
     <h:body style="background-color: blue; color: white">
         <h1>Upload images</h1>
-        <p:button value="Sign out" outcome="index" style="top: 1; right: 0; position: absolute" />
+        <h:form>
+            <p:commandButton value="Sign out" action="#{loginController.logout()}" style="top: 1; right: 0; position: absolute" />
+        </h:form>
         <h:form enctype="multipart/form-data" id="form1">
             <p:growl id="mess" showDetail="true"/>
             
