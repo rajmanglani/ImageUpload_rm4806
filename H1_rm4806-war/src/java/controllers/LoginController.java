@@ -8,6 +8,8 @@ package controllers;
 import entity.Accounts;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -15,6 +17,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.mindrot.jbcrypt.BCrypt;
 import session.AccountsFacade;
 
 /**
@@ -70,20 +73,20 @@ public class LoginController implements Serializable{
      * email specified is not present in the DB. 
      * @throws IOException 
      */
-    public void login() throws IOException{
+    public void login(){
          temp = accFacade.find(this.getEmail().toLowerCase());
             if(temp == null){
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Email error","Cannot find email account.." ));
             }else{
-                if(temp.getPassword().equals(this.getPassword())){
-                    //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("email", this.getEmail());  // This makes sure that the email of the user is passed on to the next page so that we know who the user is
-                    
+                try{
+                    if(BCrypt.checkpw(this.getPassword(), temp.getPassword())){
                     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                     ec.redirect("faces/homePage.xhtml");
-                }else{
+                    }
+                } catch (Exception e){
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Password error","Password does not match.." ));
-
                 }
+                
             }
  
     }
