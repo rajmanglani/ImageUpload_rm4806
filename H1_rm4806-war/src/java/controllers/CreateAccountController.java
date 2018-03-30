@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.mindrot.jbcrypt.BCrypt;
 import session.AccountsFacade;
 
 /**
@@ -78,7 +79,8 @@ public class CreateAccountController {
         a.setEmail(email.toLowerCase());
         a.setFname(fname);
         a.setLname(lname);
-        a.setPassword(password);
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+        a.setPassword(hashedPassword);
         try{
             accFacade.create(a);        // create record in DB
             FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
