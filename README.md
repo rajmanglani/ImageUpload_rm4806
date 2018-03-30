@@ -46,7 +46,8 @@ TO CREATE CONNECTION POOL:
 RUN THE CODE:
 1. Download the zip file from git and extract it under the Netbeans Projects directory create while installing. 
 2. The code needs apache commons-io-2.6 jar which can be downloaded from https://commons.apache.org/proper/commons-io/download_io.cgi
-3. Open the project and run the war file (web app java).
-4. If there is error running, make sure the EJB is built and deployed. Add its jar file to the libraries folder under war application. 
+3. JBCrypt jar is used for hashing passwords with salt and should be downloaded from http://www.java2s.com/Code/Jar/j/Downloadjbcryptjar.htm (A zip will be downloaded which needs to be extracted and added to libraries under the war)
+4. Open the project and run the war file (web app java).
+5. If there is error running, make sure the EJB is built and deployed. Add its jar file to the libraries folder under war application. 
 
 Contact rm4806@nyu.edu for information regarding any erros while setting up the web app. 
