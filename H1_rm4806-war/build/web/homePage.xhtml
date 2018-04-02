@@ -6,7 +6,8 @@
     <h:head>
         <title>Home - Image Uploader</title>
     </h:head>
-    <h:body style="background-color: blue; color: white">
+    <h:body style="background-color: lightsalmon;">
+        <h1 style="text-align: center">WELCOME #{loginController.temp.fname.toUpperCase()} #{loginController.temp.lname.toUpperCase()} </h1> <br/>
         <h1>Upload images</h1>
         <h:form>
             <p:commandButton value="Sign out" action="#{loginController.logout()}" style="top: 1; right: 0; position: absolute" />

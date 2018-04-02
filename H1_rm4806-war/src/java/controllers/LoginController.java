@@ -82,6 +82,8 @@ public class LoginController implements Serializable{
                     if(BCrypt.checkpw(this.getPassword(), temp.getPassword())){
                     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
                     ec.redirect("faces/homePage.xhtml");
+                    } else{
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Password error","Password does not match.." ));
                     }
                 } catch (Exception e){
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Password error","Password does not match.." ));
